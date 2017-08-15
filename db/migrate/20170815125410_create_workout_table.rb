@@ -4,5 +4,6 @@ class CreateWorkoutTable < ActiveRecord::Migration[5.1]
   		t.string :name
   		t.date :date
   		t.integer :user_id
+  	end
   end
 end
