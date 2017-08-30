@@ -104,12 +104,19 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/workouts/:id/edit' do
-    if logged_in? && current_user
-      @workout = Wrokout.find_by_id(params[:id])
-      erb :'/workouts/edit_workout'
+    if logged_in?
+      @workout = Workout.find_by_id(params[:id])
+      if @workout.user_id == current_user.id
+        erb :'/workouts/edit_workout'
+      else
+        redirect to '/workouts'
+      end
     else
-      redirect to '/workouts'
+      redirect to '/login'
     end
+  end
+
+  patch '/workouts/:id' do
   end
 
 
