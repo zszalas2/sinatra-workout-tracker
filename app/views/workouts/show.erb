@@ -1,5 +1,8 @@
 <h1> Workout!</h1>
-
+<h2><%= @workout.name %></h2>
 <ul>
-<%= @workout.all %>
+<li><%= @workout.date %></li>
+<% @workout.exercises.each do |exercise| %>
+	<li><%= exercise.name %></li>
+<% end %>
 </ul>

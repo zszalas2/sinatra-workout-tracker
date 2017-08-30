@@ -63,6 +63,15 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  get '/workouts' do
+    if logged_in? && current_user
+      @workouts = Workout.all
+      erb :'/workouts/index'
+    else
+      redirect to '/login'
+    end
+  end
+
   get '/workouts/new' do
     if logged_in? && current_user
       erb :'/workouts/new'
@@ -72,24 +81,37 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/workouts/:id' do
-    @workout = Workout.find_by_id(params[:id])
-    erb :'/workouts/show'
-    
-  end
-
-  post '/workouts' do 
-    binding.pry
-  end
-
-
-  get '/workouts' do
     if logged_in? && current_user
-      @workouts = Workout.all
-      erb :'/workouts/index'
+     @workout = Workout.find_by_id(params[:id])
+     erb :'/workouts/show'
     else
       redirect to '/login'
     end
   end
+
+  post '/workouts' do 
+    if params[:workout] && params[:workout][:exercises] == ""
+      redirect to '/workouts/new'
+    else
+      @workout = Workout.create(name: params[:workout][:name], date: params[:workout][:date])
+      params[:workout][:exercises].each do |exercise_data| 
+       exercise = Exercise.new(exercise_data)  
+       exercise.workout = @workout
+       exercise.save
+    end
+    current_user.workouts << @workout
+    redirect to "/workouts/#{@workout.id}"
+  end
+
+  get '/workouts/:id/edit' do
+    if logged_in? && current_user
+      @workout = Wrokout.find_by_id(params[:id])
+      erb :'/workouts/edit_workout'
+    else
+      redirect to '/workouts'
+    end
+  end
+
 
 
 
