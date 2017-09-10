@@ -8,3 +8,8 @@
 </ul>
 
 <a href="/workouts/<%=@workout.id%>/edit">Edit Workout</a>
+<form action="/workouts/<%= @workout.id %>/delete" method="POST">
+     <input type="hidden" id="hidden" name="_method" value="delete">
+     <input id="delete" type="button">Delete Workout</input>
+ </form> 
+ <a href="/workouts/<%=@workout.id%>/delete">Delete Workout</a>

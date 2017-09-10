@@ -1,4 +1,4 @@
-<h1>Welcome, <%= current_user.username %></h1>
+<h1>Welcome, <%= @user.username %></h1>
 <ul>
 	<% @workouts.each do |workout| %>
 		<li><%= workout.name %></li>
@@ -7,3 +7,5 @@
 
 	<a href="/workouts/new">Create New Workout</a>
 </ul>
+
+<a href="/logout">Logout</a>
